@@ -102,24 +102,60 @@ public class SplinePath : MonoBehaviour
         
         distance = Mathf.Clamp(distance, 0f, TotalLength);
         
-        for (int i = 1; i < _distanceTable.Count; i++)
+        // Binary Search Version
+        if (distance <= 0f)
+            return 0f;
+        
+        if (distance >= TotalLength)
+            return SegmentCount;
+        
+        // Start with the entire distance table.
+        int low = 0;
+        int high = _distanceTable.Count - 1;
+        
+        // Narrow the search until two neighboring rows remain.
+        while (high - low > 1)
         {
-            DistanceRow before = _distanceTable[i - 1];
-            DistanceRow after = _distanceTable[i];
-
-            if (distance <= after.distance)
+            int mid = low + (high - low) / 2;
+        
+            if (_distanceTable[mid].distance < distance)
             {
-                float t = Mathf.InverseLerp(
-                    before.distance,
-                    after.distance,
-                    distance
-                );
-
-                return Mathf.Lerp(before.u, after.u, t);
+                low = mid;
+            }
+            else
+            {
+                high = mid;
             }
         }
-
-        return SegmentCount;
+        
+        // Interpolate between the two surrounding rows.
+        DistanceRow before = _distanceTable[low];
+        DistanceRow after = _distanceTable[high];
+        
+        float t = Mathf.InverseLerp(before.distance, after.distance, distance);
+        
+        return Mathf.Lerp(before.u, after.u, t);
+        
+        // Old Version
+        
+        // for (int i = 1; i < _distanceTable.Count; i++)
+        // {
+        //     DistanceRow before = _distanceTable[i - 1];
+        //     DistanceRow after = _distanceTable[i];
+        //
+        //     if (distance <= after.distance)
+        //     {
+        //         float t = Mathf.InverseLerp(
+        //             before.distance,
+        //             after.distance,
+        //             distance
+        //         );
+        //
+        //         return Mathf.Lerp(before.u, after.u, t);
+        //     }
+        // }
+        //
+        // return SegmentCount;
     }
 
     void OnDrawGizmos()

@@ -8290,6 +8290,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7ef23b11f840ce4f8bb3717208424a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Curves::SplineCamera
+  useEasing: 0
+  easeFraction: 0.25
   path: {fileID: 2121145906}
   target: {fileID: 1071888793}
   speed: 2.5

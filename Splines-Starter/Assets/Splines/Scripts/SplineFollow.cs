@@ -7,6 +7,11 @@ using UnityEngine;
 
 public class SplineFollow : MonoBehaviour
 {
+    // For polish
+    [SerializeField] public bool useEasing = false;
+    [Range(0.01f, 0.5f)] public float easeFraction = 0.25f;
+    float _elapsedTime;
+    
     public SplinePath path;
     public Transform target;
     public float speed = 2.5f; // Positive world units per second in the completed exercise.
@@ -23,9 +28,56 @@ public class SplineFollow : MonoBehaviour
             // TODO: Advance distance by speed over the frame and look up u for that distance.
             // Stop at TotalLength.
             
-            _distance = Mathf.Min(_distance + speed * Time.deltaTime, path.TotalLength);
+            // _distance = Mathf.Min(_distance + speed * Time.deltaTime, path.TotalLength);
+            //
+            // _u = path.ParameterAtDistance(_distance);
 
-            _u = path.ParameterAtDistance(_distance);
+            if (useEasing)
+            {
+                float length = path.TotalLength;
+                float cruiseSpeed = Mathf.Max(0f, speed);
+                float e = Mathf.Clamp(easeFraction, 0.01f, 0.5f);
+
+                if (length > 0f && cruiseSpeed > 0f)
+                {
+                    float tripDuration = length / (cruiseSpeed * (1f - e));
+
+                    _elapsedTime = Mathf.Min(_elapsedTime + Time.deltaTime, tripDuration);
+
+                    float progress = _elapsedTime / tripDuration;
+                    float distanceFraction;
+
+                    if (progress < e)
+                    {
+                        //ease in
+                        distanceFraction = progress * progress / (2f * e * (1f - e));
+                    }
+                    else if (progress <= 1f - e)
+                    {
+                        //constant speed.
+                        distanceFraction =
+                            (progress - e * 0.5f) / (1f - e);
+                    }
+                    else
+                    {
+                        //ease out
+                        float remaining = 1f - progress;
+
+                        distanceFraction = 1f - remaining * remaining / (2f * e * (1f - e));
+                    }
+
+                    _distance = Mathf.Clamp01(distanceFraction) * length;
+                }
+
+                _u = path.ParameterAtDistance(_distance);
+            }
+            else
+            {
+                _distance = Mathf.Min(_distance + speed * Time.deltaTime, path.TotalLength);
+                
+                _u = path.ParameterAtDistance(_distance);
+            }
+
         }
         else
         {
@@ -56,5 +108,7 @@ public class SplineFollow : MonoBehaviour
     {
         _distance = 0f;
         _u = 0f;
+        
+        _elapsedTime = 0f;
     }
 }
