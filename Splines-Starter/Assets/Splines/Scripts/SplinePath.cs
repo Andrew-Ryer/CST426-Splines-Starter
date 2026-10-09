@@ -99,7 +99,27 @@ public class SplinePath : MonoBehaviour
     {
         // TODO: Return the u at a distance along the path. Interpolate u (not position)
         // between the two rows around it.
-        return 0f;
+        
+        distance = Mathf.Clamp(distance, 0f, TotalLength);
+        
+        for (int i = 1; i < _distanceTable.Count; i++)
+        {
+            DistanceRow before = _distanceTable[i - 1];
+            DistanceRow after = _distanceTable[i];
+
+            if (distance <= after.distance)
+            {
+                float t = Mathf.InverseLerp(
+                    before.distance,
+                    after.distance,
+                    distance
+                );
+
+                return Mathf.Lerp(before.u, after.u, t);
+            }
+        }
+
+        return SegmentCount;
     }
 
     void OnDrawGizmos()
