@@ -19,7 +19,7 @@ public class ProceduralQuadStarter : MonoBehaviour
     {
         _meshFilter = gameObject.AddComponent<MeshFilter>();
         _meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        _meshRenderer.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        _meshRenderer.material = material;
         
         float halfWidth = width / 2f;
 
