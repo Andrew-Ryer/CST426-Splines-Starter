@@ -55,8 +55,7 @@ public class SplineFollow : MonoBehaviour
                     else if (progress <= 1f - e)
                     {
                         //constant speed.
-                        distanceFraction =
-                            (progress - e * 0.5f) / (1f - e);
+                        distanceFraction = (progress - e * 0.5f) / (1f - e);
                     }
                     else
                     {
