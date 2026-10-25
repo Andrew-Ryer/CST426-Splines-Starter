@@ -2820,9 +2820,9 @@ MonoBehaviour:
   equilibriumTransform: {fileID: 6079016466518907626}
   attachmentTransform: {fileID: 4091212901078576320}
   springCoilLine: {fileID: 2626983646043084755}
-  mass: 100
+  mass: 10
   frequencyHz: 1.85
-  dampingRatio: 0.2
+  dampingRatio: 0
   maxLine: {fileID: 2519517660522277532}
   minLine: {fileID: 328219863253765482}
   maxDisplacement: 0

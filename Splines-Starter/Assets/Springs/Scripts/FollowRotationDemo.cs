@@ -41,7 +41,9 @@ public class FollowRotationDemo : MonoBehaviour
         // TODO: Start the follow spring at rest on the slider's value: set followSpring.equilibrium
         // to targetSlider.value, and call followSpring.SetValue(targetSlider.value). Without this
         // the spring starts at 0, and the head flies in from the left on Play.
-
+        followSpring.equilibrium = targetSlider.value;
+        followSpring.SetValue(targetSlider.value);
+        
         UpdateVisuals(targetSlider.value, followSpring.Value, followSpring.Velocity);
     }
 
@@ -49,6 +51,8 @@ public class FollowRotationDemo : MonoBehaviour
     {
         // TODO: Set followSpring.equilibrium to targetSlider.value, then step the spring with
         // followSpring.Advance(Time.deltaTime).
+        followSpring.equilibrium = targetSlider.value;
+        followSpring.Advance(Time.deltaTime);
 
         UpdateVisuals(targetSlider.value, followSpring.Value, followSpring.Velocity);
     }
@@ -62,14 +66,23 @@ public class FollowRotationDemo : MonoBehaviour
         // TODO: Lean by the spring's velocity: angle is velocity * rotationDegreesPerVelocity, times -1
         // when reverseAngleMapping is on. Use velocity, not displacement: a head leaning by distance
         // would stay tilted while it waits off target.
-        float angle = 0f;
+        float angle = velocity * rotationDegreesPerVelocity;
+        if (reverseAngleMapping)
+        {
+            angle *= -1f;
+        }
+        
         bool settled = Mathf.Abs(displacement) <= settledDistance && Mathf.Abs(velocity) <= settledVelocity;
         Color sideColor = settled ? settledColor : displacement < 0f ? negativeSideColor : positiveSideColor;
 
         // TODO: Move spriteRoot to followerX the same way redDot moves just below: copy its
         // anchoredPosition, change x, and assign it back. Then turn it to angle about z with
         // spriteRoot.localRotation = Quaternion.Euler(0f, 0f, angle).
-
+        Vector2 spritePosition = spriteRoot.anchoredPosition;
+        spritePosition.x = followerX;
+        spriteRoot.anchoredPosition = spritePosition;
+        spriteRoot.localRotation = Quaternion.Euler(0f, 0f, angle);
+        
         Vector2 dotPosition = redDot.anchoredPosition;
         dotPosition.x = followerX;
         redDot.anchoredPosition = dotPosition;

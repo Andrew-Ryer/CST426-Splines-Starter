@@ -11,7 +11,7 @@ public class TestBetterSpring : MonoBehaviour
     public float mass = 1f;
     public float frequencyHz = 1f;
     public float dampingRatio = 0.1f;
-
+    
     [Header("Debug")]
     public LineRenderer maxLine;
     public LineRenderer minLine;
