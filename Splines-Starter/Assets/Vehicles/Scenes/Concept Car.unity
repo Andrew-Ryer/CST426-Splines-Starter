@@ -1282,7 +1282,7 @@ MonoBehaviour:
   - {fileID: 1063560079}
   - {fileID: 1494680412}
   - {fileID: 2047819077}
-  suspensionRestDist: 0.8
+  suspensionRestDist: 0.5
   raycastLength: 1.7
   stiffness: 30000
   damping: 1000
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   showSuspensionForces: 1
   showGripForces: 1
   showDriveForces: 1
-  showHubBasis: 0
+  showHubBasis: 1
   forceVisualizationScale: 0.001
   basisVisualizationScale: 0.5
   suspensionForceColor: {r: 0, g: 1, b: 0, a: 1}
