@@ -1282,7 +1282,7 @@ MonoBehaviour:
   - {fileID: 1063560079}
   - {fileID: 1494680412}
   - {fileID: 2047819077}
-  suspensionRestDist: 1
+  suspensionRestDist: 0.8
   raycastLength: 1.7
   stiffness: 30000
   damping: 1000

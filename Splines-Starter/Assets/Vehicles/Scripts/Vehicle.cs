@@ -82,9 +82,8 @@ public class Vehicle : MonoBehaviour
             
             // TODO Part 3, damper: also resist how fast this hub moves along its up.
             hub.SuspensionForce = (restoringForce + dampingForce) * hub.transform.up;
-
-            carRigidBody.AddForceAtPosition(hub.SuspensionForce, hub.transform.position);
-
+            
+            
             // TODO Part 2, spring: set the wheel visual on the road, then push along the hub's up with the spring.
             hub.wheelVisual.transform.position = groundHit.point + hub.WheelRadius * hub.transform.up;
             
